@@ -22,6 +22,7 @@
 		697551B02BF7BD1300CC964F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551AF2BF7BD1300CC964F /* ProfileViewController.swift */; };
 		697551B82BF7CBE100CC964F /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551B72BF7CBE100CC964F /* BaseViewController.swift */; };
 		697551BA2BF8047E00CC964F /* UIColor+HexCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551B92BF8047E00CC964F /* UIColor+HexCode.swift */; };
+		697551BD2BF80CF900CC964F /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551BC2BF80CF900CC964F /* CustomSearchBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		697551AF2BF7BD1300CC964F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		697551B72BF7CBE100CC964F /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		697551B92BF8047E00CC964F /* UIColor+HexCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+HexCode.swift"; sourceTree = "<group>"; };
+		697551BC2BF80CF900CC964F /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 		6975516E2BF7B85100CC964F /* EnesKendirciCaseStudy */ = {
 			isa = PBXGroup;
 			children = (
+				697551BB2BF80BEB00CC964F /* UIComponents */,
 				697551B62BF7CBD900CC964F /* Base */,
 				697551AA2BF7BCF700CC964F /* Profile */,
 				697551A92BF7BCEE00CC964F /* Favorites */,
@@ -199,6 +202,14 @@
 				697551B72BF7CBE100CC964F /* BaseViewController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		697551BB2BF80BEB00CC964F /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				697551BC2BF80CF900CC964F /* CustomSearchBar.swift */,
+			);
+			path = UIComponents;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,6 +351,7 @@
 				697551AC2BF7BD0100CC964F /* CartViewController.swift in Sources */,
 				697551B02BF7BD1300CC964F /* ProfileViewController.swift in Sources */,
 				697551BA2BF8047E00CC964F /* UIColor+HexCode.swift in Sources */,
+				697551BD2BF80CF900CC964F /* CustomSearchBar.swift in Sources */,
 				6975517A2BF7B85100CC964F /* EnesKendirciCaseStudy.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
