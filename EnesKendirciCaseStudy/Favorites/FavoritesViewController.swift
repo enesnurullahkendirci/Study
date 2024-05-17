@@ -7,10 +7,9 @@
 
 import UIKit
 
-final class FavoritesViewController: UIViewController {
+final class FavoritesViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        title = "Favorites"
+
     }
 }

@@ -7,10 +7,10 @@
 
 import UIKit
 
-final class CartViewController: UIViewController {
+final class CartViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
-        title = "Cart"
     }
 }

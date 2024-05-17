@@ -7,11 +7,9 @@
 
 import UIKit
 
-final class ProductListViewController: UIViewController {
+final class ProductListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        title = "Product List"
         
     }
 }
