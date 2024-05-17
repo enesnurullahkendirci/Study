@@ -1,5 +1,5 @@
 //
-//  ProductListViewController.swift
+//  FavoritesViewController.swift
 //  EnesKendirciCaseStudy
 //
 //  Created by Enes KENDİRCİ on 17.05.2024.
@@ -7,11 +7,10 @@
 
 import UIKit
 
-final class ProductListViewController: UIViewController {
+final class FavoritesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "Product List"
-        
+        title = "Favorites"
     }
 }
