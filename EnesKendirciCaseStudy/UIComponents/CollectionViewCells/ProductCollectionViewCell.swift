@@ -95,4 +95,9 @@ final class ProductCollectionViewCell: UICollectionViewCell {
             addToCartButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
+    
+    func configure(with product: Product) {
+        productNameLabel.text = product.name
+        productPriceLabel.text = "\(product.price) ₺"
+    }
 }
