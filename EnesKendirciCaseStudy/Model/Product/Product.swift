@@ -11,9 +11,9 @@ struct Product: Codable {
     let id: String?
     let name: String?
     let image: String?
-    let price: Double?
+    let price: String?
     let description: String?
     let model: String?
     let brand: String?
-    let createdAt: Date?
+    let createdAt: String?
 }

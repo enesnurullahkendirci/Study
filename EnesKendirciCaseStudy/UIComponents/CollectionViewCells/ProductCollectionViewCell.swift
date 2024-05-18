@@ -98,6 +98,7 @@ final class ProductCollectionViewCell: UICollectionViewCell {
     
     func configure(with product: Product) {
         productNameLabel.text = product.name
-        productPriceLabel.text = "\(product.price) ₺"
+        guard let price = product.price else { return }
+        productPriceLabel.text = "\(price) ₺"
     }
 }

@@ -49,13 +49,16 @@ final class ProductListViewController: BaseViewController {
         return collectionView
     }()
     
-    private var products: [Product] = []
+    private var viewModel = ProductListViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupSearchBar()
         setupFilterView()
+        setupCollectionView()
+        
+        fetchProducts()
     }
     
     private func setupSearchBar() {
@@ -97,8 +100,14 @@ final class ProductListViewController: BaseViewController {
             collectionView.topAnchor.constraint(equalTo: filterView.bottomAnchor, constant: 16),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func fetchProducts() {
+        viewModel.fetchProducts { [weak self] in
+            self?.collectionView.reloadData()
+        }
     }
 }
 
@@ -115,14 +124,14 @@ extension ProductListViewController: UISearchBarDelegate {
 
 extension ProductListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        viewModel.products.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.reuseIdentifier, for: indexPath) as? ProductCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let product = products[indexPath.item]
+        let product = viewModel.products[indexPath.item]
         cell.configure(with: product)
         return cell
     }
