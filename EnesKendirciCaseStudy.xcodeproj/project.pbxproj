@@ -23,6 +23,7 @@
 		697551B82BF7CBE100CC964F /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551B72BF7CBE100CC964F /* BaseViewController.swift */; };
 		697551BA2BF8047E00CC964F /* UIColor+HexCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551B92BF8047E00CC964F /* UIColor+HexCode.swift */; };
 		697551BD2BF80CF900CC964F /* CustomSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551BC2BF80CF900CC964F /* CustomSearchBar.swift */; };
+		697551C02BF9267D00CC964F /* ProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551BF2BF9267D00CC964F /* ProductCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		697551B72BF7CBE100CC964F /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		697551B92BF8047E00CC964F /* UIColor+HexCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+HexCode.swift"; sourceTree = "<group>"; };
 		697551BC2BF80CF900CC964F /* CustomSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSearchBar.swift; sourceTree = "<group>"; };
+		697551BF2BF9267D00CC964F /* ProductCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,9 +209,18 @@
 		697551BB2BF80BEB00CC964F /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				697551BE2BF9266900CC964F /* CollectionViewCells */,
 				697551BC2BF80CF900CC964F /* CustomSearchBar.swift */,
 			);
 			path = UIComponents;
+			sourceTree = "<group>";
+		};
+		697551BE2BF9266900CC964F /* CollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				697551BF2BF9267D00CC964F /* ProductCollectionViewCell.swift */,
+			);
+			path = CollectionViewCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,6 +362,7 @@
 				697551AC2BF7BD0100CC964F /* CartViewController.swift in Sources */,
 				697551B02BF7BD1300CC964F /* ProfileViewController.swift in Sources */,
 				697551BA2BF8047E00CC964F /* UIColor+HexCode.swift in Sources */,
+				697551C02BF9267D00CC964F /* ProductCollectionViewCell.swift in Sources */,
 				697551BD2BF80CF900CC964F /* CustomSearchBar.swift in Sources */,
 				6975517A2BF7B85100CC964F /* EnesKendirciCaseStudy.xcdatamodeld in Sources */,
 			);
