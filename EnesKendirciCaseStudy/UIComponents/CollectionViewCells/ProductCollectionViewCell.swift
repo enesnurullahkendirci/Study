@@ -96,9 +96,23 @@ final class ProductCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        productImageView.image = nil
+    }
+    
     func configure(with product: Product) {
         productNameLabel.text = product.name
         guard let price = product.price else { return }
         productPriceLabel.text = "\(price) ₺"
+        
+        guard let imageURLString = product.image, let imageURL = URL(string: imageURLString) else { return }
+        
+        NetworkManager.shared.loadImage(from: imageURL) { [weak self] image in
+            DispatchQueue.main.async {
+                self?.productImageView.image = image
+            }
+        }
     }
 }
