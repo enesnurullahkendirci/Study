@@ -1,0 +1,22 @@
+[
+    {
+        "id": "1",
+        "name": "Product 1",
+        "image": "https://loremflickr.com/640/480/food",
+        "price": "10.00",
+        "description": "Description 1",
+        "model": "Model 1",
+        "brand": "Brand 1",
+        "createdAt": "2023-07-17T07:21:02.529Z"
+    },
+    {
+        "id": "2",
+        "name": "Product 2",
+        "image": "https://loremflickr.com/640/480/food",
+        "price": "20.00",
+        "description": "Description 2",
+        "model": "Model 2",
+        "brand": "Brand 2",
+        "createdAt": "2023-07-17T07:21:02.529Z"
+    }
+]

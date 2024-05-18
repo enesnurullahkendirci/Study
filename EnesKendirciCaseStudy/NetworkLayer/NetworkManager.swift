@@ -5,7 +5,7 @@
 //  Created by Enes KENDİRCİ on 18.05.2024.
 //
 
-import Foundation
+import UIKit
 
 final class NetworkManager: NetworkManagerProtocol {
     static let shared = NetworkManager()
@@ -33,6 +33,8 @@ final class NetworkManager: NetworkManagerProtocol {
                 switch decodingError {
                 case .typeMismatch(_, let c), .valueNotFound(_, let c), .keyNotFound(_, let c), .dataCorrupted(let c):
                     print(c.debugDescription)
+                @unknown default:
+                    print("Unknown error")
                 }
             } catch {
                 completion(.failure(error))
@@ -40,6 +42,24 @@ final class NetworkManager: NetworkManagerProtocol {
         }
         
         task.resume()
+    }
+    
+    func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
+        // TODO: Cache image
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("Image loading error: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            guard let data = data, let image = UIImage(data: data) else {
+                completion(nil)
+                return
+            }
+            
+            completion(image)
+        }.resume()
     }
     
     enum NetworkError: Error {

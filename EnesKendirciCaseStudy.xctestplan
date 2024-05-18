@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "6D21F532-DE45-4ADE-BBAF-22A1CFB37608",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:EnesKendirciCaseStudy.xcodeproj",
+      "identifier" : "6975516B2BF7B85100CC964F",
+      "name" : "EnesKendirciCaseStudy"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:EnesKendirciCaseStudy.xcodeproj",
+        "identifier" : "697551842BF7B85200CC964F",
+        "name" : "EnesKendirciCaseStudyTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:EnesKendirciCaseStudy.xcodeproj",
+        "identifier" : "6975518E2BF7B85200CC964F",
+        "name" : "EnesKendirciCaseStudyUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

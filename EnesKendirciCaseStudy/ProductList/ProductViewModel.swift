@@ -22,11 +22,11 @@ final class ProductListViewModel {
                 switch result {
                 case .success(let products):
                     self?.products = products
-                    completion()
                 case .failure(let error):
                     print("Error fetching products: \(error)")
                     // TODO: Handle error
                 }
+                completion()
             }
         }
     }
