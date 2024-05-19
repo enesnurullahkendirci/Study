@@ -33,6 +33,7 @@ final class ProductListViewController: BaseViewController {
         filterButton.setTitle("Select Filter", for: .normal)
         filterButton.setTitleColor(.black, for: .normal)
         filterButton.backgroundColor = UIColor(hex: "#D9D9D9")
+        filterButton.addTarget(self, action: #selector(didTapFilterButton), for: .touchUpInside)
         return filterButton
     }()
     
@@ -108,6 +109,13 @@ final class ProductListViewController: BaseViewController {
         viewModel.fetchProducts { [weak self] in
             self?.collectionView.reloadData()
         }
+    }
+    
+    @objc private func didTapFilterButton() {
+        let filterOptions = viewModel.getFilterOptions()
+        let filterViewController = FilterViewController(filterOptions: filterOptions)
+        filterViewController.modalPresentationStyle = .automatic
+        present(filterViewController, animated: true, completion: nil)
     }
 }
 

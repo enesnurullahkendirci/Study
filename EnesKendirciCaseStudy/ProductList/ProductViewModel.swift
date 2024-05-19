@@ -30,4 +30,23 @@ final class ProductListViewModel {
             }
         }
     }
+    
+    func getFilterOptions() -> [[String: [String]]] {
+        var brands: Set<String> = []
+        var models: Set<String> = []
+        
+        for product in products {
+            if let brand = product.brand {
+                brands.insert(brand)
+            }
+            if let model = product.model {
+                models.insert(model)
+            }
+        }
+        
+        let brandArray = Array(brands).sorted()
+        let modelArray = Array(models).sorted()
+        
+        return [["Brand": brandArray], ["Model": modelArray]]
+    }
 }
