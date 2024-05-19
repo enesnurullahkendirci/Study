@@ -10,13 +10,13 @@ import Foundation
 final class FilterViewModel {
     var filterOptions: [[String: [String]]]
     private(set) var selectedSortOption: String?
-    private(set) var selectedBrands: [String] = []
-    private(set) var selectedModels: [String] = []
+    private(set) var selectedFilter: [String: [String]] = [:]
     
-    let sortOptions = ["Old to new", "New to old", "Price high to low", "Price low to high"]
+    var sortOptions: [String] = []
 
-    init(filterOptions: [[String: [String]]]) {
+    init(filterOptions: [[String: [String]]], sortOptions: [String]) {
         self.filterOptions = filterOptions
+        self.sortOptions = sortOptions
     }
 
     func numberOfSections() -> Int {
@@ -47,14 +47,9 @@ final class FilterViewModel {
             return sortOptions[indexPath.row] == selectedSortOption
         } else {
             let filter = filterOptions[indexPath.section - 1]
-            let filterKey = filter.keys.first
-            let filterValues = filter[filterKey!]!
-            if filterKey == "Brand" {
-                return selectedBrands.contains(filterValues[indexPath.row])
-            } else if filterKey == "Model" {
-                return selectedModels.contains(filterValues[indexPath.row])
-            }
-            return false
+            let filterKey = filter.keys.first!
+            let filterValues = filter[filterKey]!
+            return selectedFilter[filterKey]?.contains(filterValues[indexPath.row]) ?? false
         }
     }
 
@@ -63,24 +58,19 @@ final class FilterViewModel {
             selectedSortOption = sortOptions[indexPath.row]
         } else {
             let filter = filterOptions[indexPath.section - 1]
-            let filterKey = filter.keys.first
-            let filterValues = filter[filterKey!]!
+            let filterKey = filter.keys.first!
+            let filterValues = filter[filterKey]!
             
-            if filterKey == "Brand" {
-                let selectedBrand = filterValues[indexPath.row]
-                if selectedBrands.contains(selectedBrand) {
-                    selectedBrands.removeAll { $0 == selectedBrand }
-                } else {
-                    selectedBrands.append(selectedBrand)
-                }
-            } else if filterKey == "Model" {
-                let selectedModel = filterValues[indexPath.row]
-                if selectedModels.contains(selectedModel) {
-                    selectedModels.removeAll { $0 == selectedModel }
-                } else {
-                    selectedModels.append(selectedModel)
-                }
+            var selectedValues = selectedFilter[filterKey] ?? []
+            let selectedValue = filterValues[indexPath.row]
+            
+            if let index = selectedValues.firstIndex(of: selectedValue) {
+                selectedValues.remove(at: index)
+            } else {
+                selectedValues.append(selectedValue)
             }
+            
+            selectedFilter[filterKey] = selectedValues
         }
     }
 }

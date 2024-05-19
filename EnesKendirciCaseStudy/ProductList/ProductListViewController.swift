@@ -113,7 +113,8 @@ final class ProductListViewController: BaseViewController {
     
     @objc private func didTapFilterButton() {
         let filterOptions = viewModel.getFilterOptions()
-        let filterViewController = FilterViewController(filterOptions: filterOptions)
+        let filterViewController = FilterViewController(filterOptions: filterOptions, sortOptions: viewModel.sortOptions)
+        filterViewController.delegate = self
         filterViewController.modalPresentationStyle = .automatic
         present(filterViewController, animated: true, completion: nil)
     }
@@ -140,11 +141,17 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
             return UICollectionViewCell()
         }
         let product = viewModel.products[indexPath.item]
+        cell.index = indexPath.row
         cell.configure(with: product)
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // TODO: - Implement product detail navigation
+    }
+}
+
+extension ProductListViewController: FilterViewControllerDelegate {
+    func didApplyFilters(selectedFilters: [String : [String]], selectedSortOptions: String?) {
     }
 }

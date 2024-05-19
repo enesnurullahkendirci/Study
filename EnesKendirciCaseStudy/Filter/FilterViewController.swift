@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol FilterViewControllerDelegate: AnyObject {
+    func didApplyFilters(selectedFilters: [String: [String]], selectedSortOptions: String?)
+}
+
 final class FilterViewController: UIViewController {
 
+    weak var delegate: FilterViewControllerDelegate?
     private var viewModel: FilterViewModel
     
     private var headerViewHeight: CGFloat = 44
@@ -47,6 +52,7 @@ final class FilterViewController: UIViewController {
         button.setTitle("Primary", for: .normal)
         button.backgroundColor = UIColor(hex: "#2A59FE")
         button.layer.cornerRadius = 4
+        button.addTarget(self, action: #selector(didTapApplyButton), for: .touchUpInside)
         return button
     }()
     
@@ -66,8 +72,8 @@ final class FilterViewController: UIViewController {
         return tempTableView
     }
 
-    init(filterOptions: [[String: [String]]]) {
-        self.viewModel = FilterViewModel(filterOptions: filterOptions)
+    init(filterOptions: [[String: [String]]], sortOptions: [String]) {
+        self.viewModel = FilterViewModel(filterOptions: filterOptions, sortOptions: sortOptions)
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -133,8 +139,8 @@ final class FilterViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
             applyButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 16),
-            applyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            applyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            applyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 18),
+            applyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -18),
             applyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
             applyButton.heightAnchor.constraint(equalToConstant: applyButtonHeight)
         ])
@@ -152,6 +158,11 @@ final class FilterViewController: UIViewController {
     }
 
     @objc private func didTapCloseButton() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc private func didTapApplyButton() {
+        delegate?.didApplyFilters(selectedFilters: viewModel.selectedFilter, selectedSortOptions: viewModel.selectedSortOption)
         dismiss(animated: true, completion: nil)
     }
 }
