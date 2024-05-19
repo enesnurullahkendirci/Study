@@ -89,7 +89,6 @@ final class FilterViewController: UIViewController {
 
     private func setupView() {
         view.backgroundColor = .white
-        title = "Filter"
         
         let closeButton = UIButton(type: .system)
         closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
@@ -217,6 +216,9 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
             viewModel.selectOption(at: adjustedIndexPath)
             tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
         }
+        
+        guard let searchBar = (tableView.headerView(forSection: .zero) as? FilterSectionHeaderView)?.searchBar.searchBar else { return }
+        self.searchBar(searchBar, textDidChange: "")
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -241,6 +243,13 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension FilterViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
+        for (index, tableView) in dynamicTableViews.enumerated() {
+            if let headerView = tableView.headerView(forSection: 0) as? FilterSectionHeaderView,
+               headerView.contains(searchBar: searchBar) {
+                viewModel.searchFilter(for: searchText, in: index + 1)
+                tableView.reloadData()
+                break
+            }
+        }
     }
 }

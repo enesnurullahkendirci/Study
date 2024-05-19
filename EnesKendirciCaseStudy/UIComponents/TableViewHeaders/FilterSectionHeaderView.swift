@@ -19,7 +19,7 @@ final class FilterSectionHeaderView: UITableViewHeaderFooterView {
         return label
     }()
 
-    private let searchBar: CustomSearchBar = {
+    let searchBar: CustomSearchBar = {
         let searchBar = CustomSearchBar()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
@@ -66,21 +66,25 @@ final class FilterSectionHeaderView: UITableViewHeaderFooterView {
     func configure(title: String, searchBarDelegate: UISearchBarDelegate?, shouldShowSearchBar: Bool) {
         titleLabel.text = title
         if shouldShowSearchBar {
-            contentView.addSubview(searchBar)
+            containerView.addSubview(searchBar)
             NSLayoutConstraint.activate([
                 searchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
                 searchBar.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
                 searchBar.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-                searchBar.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
+                searchBar.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8)
             ])
         } else {
             searchBar.removeFromSuperview()
             NSLayoutConstraint.activate([
-                titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
+                titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8)
             ])
         }
         
         guard let searchBarDelegate else { return }
         searchBar.setDelegate(searchBarDelegate)
+    }
+    
+    func contains(searchBar: UISearchBar) -> Bool {
+        self.searchBar.searchBar == searchBar
     }
 }

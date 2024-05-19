@@ -11,23 +11,21 @@ final class FilterViewModel {
     var filterOptions: [[String: [String]]]
     private(set) var selectedSortOption: String?
     private(set) var selectedFilter: [String: [String]] = [:]
-    
-    var sortOptions: [String] = []
 
+    var sortOptions: [String] = []
+    var searchResults: [[String: [String]]]
+    
     init(filterOptions: [[String: [String]]], sortOptions: [String]) {
         self.filterOptions = filterOptions
         self.sortOptions = sortOptions
-    }
-
-    func numberOfSections() -> Int {
-        return filterOptions.count + 1
+        self.searchResults = filterOptions
     }
 
     func numberOfRows(in section: Int) -> Int {
         if section == 0 {
             return sortOptions.count
         } else {
-            let filter = filterOptions[section - 1]
+            let filter = searchResults[section - 1]
             return filter.values.first?.count ?? 0
         }
     }
@@ -36,7 +34,7 @@ final class FilterViewModel {
         if indexPath.section == 0 {
             return sortOptions[indexPath.row]
         } else {
-            let filter = filterOptions[indexPath.section - 1]
+            let filter = searchResults[indexPath.section - 1]
             let filterValues = filter.values.first!
             return filterValues[indexPath.row]
         }
@@ -46,7 +44,7 @@ final class FilterViewModel {
         if indexPath.section == 0 {
             return sortOptions[indexPath.row] == selectedSortOption
         } else {
-            let filter = filterOptions[indexPath.section - 1]
+            let filter = searchResults[indexPath.section - 1]
             let filterKey = filter.keys.first!
             let filterValues = filter[filterKey]!
             return selectedFilter[filterKey]?.contains(filterValues[indexPath.row]) ?? false
@@ -57,7 +55,7 @@ final class FilterViewModel {
         if indexPath.section == 0 {
             selectedSortOption = sortOptions[indexPath.row]
         } else {
-            let filter = filterOptions[indexPath.section - 1]
+            let filter = searchResults[indexPath.section - 1]
             let filterKey = filter.keys.first!
             let filterValues = filter[filterKey]!
             
@@ -71,6 +69,19 @@ final class FilterViewModel {
             }
             
             selectedFilter[filterKey] = selectedValues
+        }
+    }
+
+    func searchFilter(for text: String, in section: Int) {
+        if text.isEmpty {
+            searchResults = filterOptions
+        } else {
+            searchResults = filterOptions.map { filter in
+                var newFilter = filter
+                let key = filter.keys.first!
+                newFilter[key] = filter[key]?.filter { $0.lowercased().contains(text.lowercased()) }
+                return newFilter
+            }
         }
     }
 }

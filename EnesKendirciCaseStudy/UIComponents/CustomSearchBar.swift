@@ -9,7 +9,7 @@ import UIKit
 
 final class CustomSearchBar: UIView {
 
-    private lazy var searchBar: UISearchBar = {
+    private(set) lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         searchBar.placeholder = "Search"
