@@ -11,8 +11,7 @@ final class FilterViewModel {
     var filterOptions: [[String: [String]]]
     private(set) var selectedSortOption: String?
     private(set) var selectedFilter: [String: [String]] = [:]
-
-    var sortOptions: [String] = []
+    var sortOptions: [String]
     var searchResults: [[String: [String]]]
     
     init(filterOptions: [[String: [String]]], sortOptions: [String]) {
@@ -25,8 +24,7 @@ final class FilterViewModel {
         if section == 0 {
             return sortOptions.count
         } else {
-            let filter = searchResults[section - 1]
-            return filter.values.first?.count ?? 0
+            return searchResults[section - 1].values.first?.count ?? 0
         }
     }
 
@@ -34,9 +32,7 @@ final class FilterViewModel {
         if indexPath.section == 0 {
             return sortOptions[indexPath.row]
         } else {
-            let filter = searchResults[indexPath.section - 1]
-            let filterValues = filter.values.first!
-            return filterValues[indexPath.row]
+            return searchResults[indexPath.section - 1].values.first?[indexPath.row] ?? ""
         }
     }
 
