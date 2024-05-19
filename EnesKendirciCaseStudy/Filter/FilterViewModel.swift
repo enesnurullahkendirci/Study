@@ -32,7 +32,12 @@ final class FilterViewModel {
         if indexPath.section == 0 {
             return sortOptions[indexPath.row]
         } else {
-            return searchResults[indexPath.section - 1].values.first?[indexPath.row] ?? ""
+            let sectionIndex = indexPath.section - 1
+            guard sectionIndex < searchResults.count else { return "" }
+            let section = searchResults[sectionIndex]
+            let values = section.values.first ?? []
+            guard indexPath.row < values.count else { return "" }
+            return values[indexPath.row]
         }
     }
 
@@ -64,7 +69,11 @@ final class FilterViewModel {
                 selectedValues.append(selectedValue)
             }
             
-            selectedFilter[filterKey] = selectedValues
+            if selectedValues.isEmpty {
+                selectedFilter.removeValue(forKey: filterKey)
+            } else {
+                selectedFilter[filterKey] = selectedValues
+            }
         }
     }
 
@@ -72,12 +81,13 @@ final class FilterViewModel {
         if text.isEmpty {
             searchResults = filterOptions
         } else {
-            searchResults = filterOptions.map { filter in
+            searchResults = filterOptions.enumerated().map { index, filter in
                 var newFilter = filter
-                let key = filter.keys.first!
-                newFilter[key] = filter[key]?.filter { $0.lowercased().contains(text.lowercased()) }
+                if index == section - 1 {
+                    let key = filter.keys.first!
+                    newFilter[key] = filter[key]?.filter { $0.lowercased().contains(text.lowercased()) }
+                }
                 return newFilter
             }
         }
-    }
-}
+    }}

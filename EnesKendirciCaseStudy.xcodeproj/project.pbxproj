@@ -39,6 +39,7 @@
 		697551E12BF9F20200CC964F /* SortByTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551E02BF9F20200CC964F /* SortByTableViewCell.swift */; };
 		697551E32BF9F78B00CC964F /* FilterOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551E22BF9F78B00CC964F /* FilterOptionTableViewCell.swift */; };
 		697551E62BFA055D00CC964F /* FilterSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551E52BFA055D00CC964F /* FilterSectionHeaderView.swift */; };
+		697551EB2BFAA68100CC964F /* FilterViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551EA2BFAA68100CC964F /* FilterViewModelTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,7 @@
 		697551E02BF9F20200CC964F /* SortByTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortByTableViewCell.swift; sourceTree = "<group>"; };
 		697551E22BF9F78B00CC964F /* FilterOptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptionTableViewCell.swift; sourceTree = "<group>"; };
 		697551E52BFA055D00CC964F /* FilterSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSectionHeaderView.swift; sourceTree = "<group>"; };
+		697551EA2BFAA68100CC964F /* FilterViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModelTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +172,7 @@
 		697551882BF7B85200CC964F /* EnesKendirciCaseStudyTests */ = {
 			isa = PBXGroup;
 			children = (
+				697551E92BFAA67400CC964F /* Filter */,
 				697551D52BF94E3500CC964F /* Product */,
 				697551D22BF94DE500CC964F /* TestResources */,
 				697551892BF7B85200CC964F /* EnesKendirciCaseStudyTests.swift */,
@@ -330,6 +333,14 @@
 				697551E52BFA055D00CC964F /* FilterSectionHeaderView.swift */,
 			);
 			path = TableViewHeaders;
+			sourceTree = "<group>";
+		};
+		697551E92BFAA67400CC964F /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				697551EA2BFAA68100CC964F /* FilterViewModelTest.swift */,
+			);
+			path = Filter;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -496,6 +507,7 @@
 			files = (
 				697551D72BF94E4E00CC964F /* ProductListViewModelTest.swift in Sources */,
 				697551D12BF94DC400CC964F /* MockNetworkManager.swift in Sources */,
+				697551EB2BFAA68100CC964F /* FilterViewModelTest.swift in Sources */,
 				6975518A2BF7B85200CC964F /* EnesKendirciCaseStudyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
