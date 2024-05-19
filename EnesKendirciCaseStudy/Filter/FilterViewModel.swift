@@ -8,7 +8,7 @@
 import Foundation
 
 final class FilterViewModel {
-    private var filterOptions: [[String: [String]]]
+    var filterOptions: [[String: [String]]]
     private(set) var selectedSortOption: String?
     private(set) var selectedBrands: [String] = []
     private(set) var selectedModels: [String] = []
@@ -20,7 +20,7 @@ final class FilterViewModel {
     }
 
     func numberOfSections() -> Int {
-        return filterOptions.count + 1 // Sort By için ekstra bir bölüm
+        return filterOptions.count + 1
     }
 
     func numberOfRows(in section: Int) -> Int {
@@ -29,14 +29,6 @@ final class FilterViewModel {
         } else {
             let filter = filterOptions[section - 1]
             return filter.values.first?.count ?? 0
-        }
-    }
-
-    func titleForHeader(in section: Int) -> String? {
-        if section == 0 {
-            return "Sort By"
-        } else {
-            return filterOptions[section - 1].keys.first
         }
     }
 

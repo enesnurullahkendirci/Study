@@ -14,7 +14,8 @@ final class FilterSectionHeaderView: UITableViewHeaderFooterView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.textColor = UIColor(hex: "#333333").withAlphaComponent(0.7)
         return label
     }()
 
@@ -22,14 +23,6 @@ final class FilterSectionHeaderView: UITableViewHeaderFooterView {
         let searchBar = CustomSearchBar()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
-    }()
-    
-    
-    private lazy var separatorView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor(hex: "#808080")
-        return view
     }()
     
     private let containerView: UIView = {
@@ -50,7 +43,6 @@ final class FilterSectionHeaderView: UITableViewHeaderFooterView {
     private func setupView() {
         contentView.backgroundColor = .white
         contentView.addSubview(containerView)
-        containerView.addSubview(separatorView)
         containerView.addSubview(titleLabel)
         containerView.addSubview(searchBar)
         
@@ -60,17 +52,17 @@ final class FilterSectionHeaderView: UITableViewHeaderFooterView {
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            separatorView.heightAnchor.constraint(equalToConstant: 1),
-            separatorView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            separatorView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            separatorView.bottomAnchor.constraint(equalTo: containerView.topAnchor),
-            
-            titleLabel.topAnchor.constraint(equalTo: separatorView.topAnchor, constant: 16),
-            titleLabel.leadingAnchor.constraint(equalTo: separatorView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: separatorView.trailingAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+
+            searchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            searchBar.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
+            searchBar.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15),
+            searchBar.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -15)
         ])
     }
-    
+
     func configure(title: String, searchBarDelegate: UISearchBarDelegate?, shouldShowSearchBar: Bool) {
         titleLabel.text = title
         if shouldShowSearchBar {
@@ -87,7 +79,6 @@ final class FilterSectionHeaderView: UITableViewHeaderFooterView {
                 titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
             ])
         }
-        
         
         guard let searchBarDelegate else { return }
         searchBar.setDelegate(searchBarDelegate)

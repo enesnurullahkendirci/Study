@@ -14,7 +14,7 @@ class FilterOptionTableViewCell: UITableViewCell {
     private let optionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .black
         return label
     }()
@@ -42,13 +42,13 @@ class FilterOptionTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             optionImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            optionImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            optionImageView.widthAnchor.constraint(equalToConstant: 24),
-            optionImageView.heightAnchor.constraint(equalToConstant: 24),
+            optionImageView.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            optionImageView.widthAnchor.constraint(equalToConstant: 16),
+            optionImageView.heightAnchor.constraint(equalToConstant: 16),
             
             optionLabel.leadingAnchor.constraint(equalTo: optionImageView.trailingAnchor, constant: 16),
             optionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            optionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            optionLabel.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 15)
         ])
     }
 

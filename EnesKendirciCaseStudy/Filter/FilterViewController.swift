@@ -10,19 +10,61 @@ import UIKit
 final class FilterViewController: UIViewController {
 
     private var viewModel: FilterViewModel
-
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
-        tableView.dataSource = self
+    
+    private var headerViewHeight: CGFloat = 44
+    private var cellHeight: CGFloat = 35
+    private var applyButtonHeight: CGFloat = 44
+    
+    private lazy var sortTableView: UITableView = {
+        let tableView = tableViewCreate()
+        tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .white
         tableView.register(SortByTableViewCell.self, forCellReuseIdentifier: SortByTableViewCell.reuseIdentifier)
-        tableView.register(FilterOptionTableViewCell.self, forCellReuseIdentifier: FilterOptionTableViewCell.reuseIdentifier)
         tableView.register(FilterSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: FilterSectionHeaderView.reuseIdentifier)
         return tableView
     }()
+    
+    private lazy var seperatorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(hex: "#000000").withAlphaComponent(0.5)
+        return view
+    }()
+    
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.spacing = 1
+        stackView.backgroundColor = UIColor(hex: "#000000").withAlphaComponent(0.5)
+        return stackView
+    }()
+    
+    private lazy var applyButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Primary", for: .normal)
+        button.backgroundColor = UIColor(hex: "#2A59FE")
+        button.layer.cornerRadius = 4
+        return button
+    }()
+    
+    private var dynamicTableViews: [UITableView] = []
+
+    private func tableViewCreate() -> UITableView {
+        let tempTableView = UITableView(frame: .zero, style: .grouped)
+        tempTableView.translatesAutoresizingMaskIntoConstraints = false
+        tempTableView.delegate = self
+        tempTableView.dataSource = self
+        tempTableView.separatorStyle = .none
+        tempTableView.bounces = false
+        tempTableView.alwaysBounceVertical = false
+        tempTableView.backgroundColor = .white
+        tempTableView.register(FilterOptionTableViewCell.self, forCellReuseIdentifier: FilterOptionTableViewCell.reuseIdentifier)
+        tempTableView.register(FilterSectionHeaderView.self, forHeaderFooterViewReuseIdentifier: FilterSectionHeaderView.reuseIdentifier)
+        return tempTableView
+    }
 
     init(filterOptions: [[String: [String]]]) {
         self.viewModel = FilterViewModel(filterOptions: filterOptions)
@@ -36,6 +78,7 @@ final class FilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupDynamicTableViews()
     }
 
     private func setupView() {
@@ -58,6 +101,11 @@ final class FilterViewController: UIViewController {
         headerView.addSubview(titleLabel)
         
         view.addSubview(headerView)
+        view.addSubview(sortTableView)
+        view.addSubview(seperatorView)
+        view.addSubview(stackView)
+        view.addSubview(applyButton)
+        
         NSLayoutConstraint.activate([
             closeButton.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
             closeButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
@@ -68,59 +116,67 @@ final class FilterViewController: UIViewController {
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 44)
-        ])
-        
-        view.addSubview(tableView)
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
-        let applyButton = UIButton(type: .system)
-        applyButton.setTitle("Apply", for: .normal)
-        applyButton.backgroundColor = UIColor(hex: "#2A59FE")
-        applyButton.setTitleColor(.white, for: .normal)
-        applyButton.translatesAutoresizingMaskIntoConstraints = false
-        applyButton.addTarget(self, action: #selector(didTapApplyButton), for: .touchUpInside)
-        
-        view.addSubview(applyButton)
-        NSLayoutConstraint.activate([
-            applyButton.heightAnchor.constraint(equalToConstant: 50),
+            headerView.heightAnchor.constraint(equalToConstant: headerViewHeight),
+            
+            sortTableView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 15),
+            sortTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 22),
+            sortTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 22),
+            sortTableView.heightAnchor.constraint(equalToConstant: cellHeight * CGFloat(viewModel.sortOptions.count + 1)),
+            
+            seperatorView.topAnchor.constraint(equalTo: sortTableView.bottomAnchor, constant: 15),
+            seperatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            seperatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            seperatorView.heightAnchor.constraint(equalToConstant: 1),
+            
+            stackView.topAnchor.constraint(equalTo: seperatorView.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            
+            applyButton.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 16),
             applyButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             applyButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            applyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+            applyButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            applyButton.heightAnchor.constraint(equalToConstant: applyButtonHeight)
         ])
+    }
+
+    private func setupDynamicTableViews() {
+        for _ in viewModel.filterOptions {
+            let seperatorView = UIView()
+            seperatorView.backgroundColor = UIColor(hex: "#000000").withAlphaComponent(0.5)
+            seperatorView.translatesAutoresizingMaskIntoConstraints = false
+            let tableView = tableViewCreate()
+            dynamicTableViews.append(tableView)
+            stackView.addArrangedSubview(tableView)
+        }
     }
 
     @objc private func didTapCloseButton() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    @objc private func didTapApplyButton() {
-        // Filtrelerin uygulanması işlemleri burada yapılacak
         dismiss(animated: true, completion: nil)
     }
 }
 
 extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        cellHeight
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.numberOfSections()
+        1
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRows(in: section)
+        if tableView == sortTableView {
+            return viewModel.numberOfRows(in: 0)
+        } else if let index = dynamicTableViews.firstIndex(of: tableView) {
+            return viewModel.numberOfRows(in: index + 1)
+        }
+        return 0
     }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        nil
-    }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        if tableView == sortTableView {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SortByTableViewCell.reuseIdentifier, for: indexPath) as? SortByTableViewCell else {
                 return UITableViewCell()
             }
@@ -128,33 +184,52 @@ extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
             let isSelected = viewModel.isSelected(at: indexPath)
             cell.configure(with: option, isSelected: isSelected)
             return cell
-        } else {
+        } else if let index = dynamicTableViews.firstIndex(of: tableView) {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: FilterOptionTableViewCell.reuseIdentifier, for: indexPath) as? FilterOptionTableViewCell else {
                 return UITableViewCell()
             }
-            let option = viewModel.option(at: indexPath)
-            let isSelected = viewModel.isSelected(at: indexPath)
+            let adjustedIndexPath = IndexPath(row: indexPath.row, section: index + 1)
+            let option = viewModel.option(at: adjustedIndexPath)
+            let isSelected = viewModel.isSelected(at: adjustedIndexPath)
             cell.configure(with: option, isSelected: isSelected)
             return cell
         }
+        return UITableViewCell()
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.selectOption(at: indexPath)
-        tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+        if tableView == sortTableView {
+            viewModel.selectOption(at: indexPath)
+            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+        } else if let index = dynamicTableViews.firstIndex(of: tableView) {
+            let adjustedIndexPath = IndexPath(row: indexPath.row, section: index + 1)
+            viewModel.selectOption(at: adjustedIndexPath)
+            tableView.reloadSections(IndexSet(integer: indexPath.section), with: .automatic)
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: FilterSectionHeaderView.reuseIdentifier) as? FilterSectionHeaderView else {
             return nil
         }
-        let title = viewModel.titleForHeader(in: section)
-        let shouldShowSearchBar = (section != 0)
-        headerView.configure(title: title ?? "", searchBarDelegate: shouldShowSearchBar ? self : nil, shouldShowSearchBar: shouldShowSearchBar)
+        let title: String
+        let shouldShowSearchBar: Bool
+        if tableView == sortTableView {
+            title = "Sort By"
+            shouldShowSearchBar = false
+        } else if let index = dynamicTableViews.firstIndex(of: tableView) {
+            title = viewModel.filterOptions[index].keys.first ?? ""
+            shouldShowSearchBar = true
+        } else {
+            return nil
+        }
+        headerView.configure(title: title, searchBarDelegate: self, shouldShowSearchBar: shouldShowSearchBar)
         return headerView
     }
 }
 
 extension FilterViewController: UISearchBarDelegate {
-    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+    }
 }

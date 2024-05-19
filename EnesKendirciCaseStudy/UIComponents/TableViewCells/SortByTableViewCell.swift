@@ -14,7 +14,7 @@ class SortByTableViewCell: UITableViewCell {
     private let sortOptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .black
         return label
     }()
@@ -43,13 +43,13 @@ class SortByTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             sortOptionImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            sortOptionImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            sortOptionImageView.widthAnchor.constraint(equalToConstant: 24),
-            sortOptionImageView.heightAnchor.constraint(equalToConstant: 24),
+            sortOptionImageView.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            sortOptionImageView.widthAnchor.constraint(equalToConstant: 16),
+            sortOptionImageView.heightAnchor.constraint(equalToConstant: 16),
             
             sortOptionLabel.leadingAnchor.constraint(equalTo: sortOptionImageView.trailingAnchor, constant: 16),
             sortOptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            sortOptionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            sortOptionLabel.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 15)
         ])
     }
     
