@@ -68,17 +68,26 @@ final class FilterSectionHeaderView: UITableViewHeaderFooterView {
             titleLabel.topAnchor.constraint(equalTo: separatorView.topAnchor, constant: 16),
             titleLabel.leadingAnchor.constraint(equalTo: separatorView.leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: separatorView.trailingAnchor, constant: -16),
-
-            searchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            searchBar.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            searchBar.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            searchBar.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
         ])
     }
     
     func configure(title: String, searchBarDelegate: UISearchBarDelegate?, shouldShowSearchBar: Bool) {
         titleLabel.text = title
-        searchBar.isHidden = !shouldShowSearchBar
+        if shouldShowSearchBar {
+            contentView.addSubview(searchBar)
+            NSLayoutConstraint.activate([
+                searchBar.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+                searchBar.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+                searchBar.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
+                searchBar.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
+            ])
+        } else {
+            searchBar.removeFromSuperview()
+            NSLayoutConstraint.activate([
+                titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
+            ])
+        }
+        
         
         guard let searchBarDelegate else { return }
         searchBar.setDelegate(searchBarDelegate)
