@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FavoriteDB: FavoriteDBStrategy {
+class FavoriteDB {
     private var strategy: FavoriteDBStrategy
 
     init(strategy: FavoriteDBStrategy) {

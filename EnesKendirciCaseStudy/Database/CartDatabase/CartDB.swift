@@ -7,7 +7,7 @@
 
 import Foundation
 
-class CartDB: CartDBStrategy {
+class CartDB {
     private var strategy: CartDBStrategy
 
     init(strategy: CartDBStrategy) {
@@ -34,7 +34,7 @@ class CartDB: CartDBStrategy {
         return try strategy.fetchAll()
     }
 
-    func insertProduct(product: Product) throws {
+    func addToCart(product: Product) throws {
         try strategy.addToCart(product: product)
     }
 
