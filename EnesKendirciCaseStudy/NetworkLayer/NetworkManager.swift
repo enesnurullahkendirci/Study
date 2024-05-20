@@ -30,12 +30,7 @@ final class NetworkManager: NetworkManagerProtocol {
                 let response = try decoder.decode(T.ResponseType.self, from: data)
                 completion(.success(response))
             } catch let decodingError as DecodingError {
-                switch decodingError {
-                case .typeMismatch(_, let c), .valueNotFound(_, let c), .keyNotFound(_, let c), .dataCorrupted(let c):
-                    print(c.debugDescription)
-                @unknown default:
-                    print("Unknown error")
-                }
+                completion(.failure(decodingError))
             } catch {
                 completion(.failure(error))
             }
