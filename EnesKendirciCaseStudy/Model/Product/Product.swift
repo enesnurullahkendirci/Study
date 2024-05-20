@@ -16,4 +16,5 @@ struct Product: Codable {
     let model: String?
     let brand: String?
     let createdAt: String?
+    var quantity: Int?
 }

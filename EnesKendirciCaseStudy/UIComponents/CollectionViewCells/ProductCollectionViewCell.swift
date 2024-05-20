@@ -25,7 +25,6 @@ final class ProductCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.tintColor = .yellow
-        button.target(forAction: #selector(didTapFavoriteButton), withSender: self)
         return button
     }()
     
@@ -52,7 +51,6 @@ final class ProductCollectionViewCell: UICollectionViewCell {
         button.backgroundColor = UIColor(hex: "#2A59FE")
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
-        button.addTarget(self, action: #selector(didTapAddToCartButton), for: .touchUpInside)
         return button
     }()
     
@@ -63,11 +61,13 @@ final class ProductCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setupActions()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupView()
+        setupActions()
     }
     
     private func setupView() {
@@ -102,17 +102,28 @@ final class ProductCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    private func setupActions() {
+        addToCartButton.addTarget(self, action: #selector(didTapAddToCartButton), for: .touchUpInside)
+        favoriteButton.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside)
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
         productImageView.image = nil
+        onFavoriteButtonTapped = nil
+        onAddToCartButtonTapped = nil
+        product = nil
     }
     
-    func configure(with product: Product) {
+    func configure(with product: Product, isFavorite: Bool) {
         self.product = product
         productNameLabel.text = product.name
         guard let price = product.price else { return }
         productPriceLabel.text = "\(price) ₺"
+        favoriteButton.setImage(
+            UIImage(resource: isFavorite ? .iconStarFill : .iconStarEmpty),
+            for: .normal)
         
         guard let imageURLString = product.image, let imageURL = URL(string: imageURLString) else { return }
         

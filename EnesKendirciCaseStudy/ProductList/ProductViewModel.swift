@@ -10,6 +10,7 @@ import Foundation
 final class ProductListViewModel {
     private let networkManager: NetworkManagerProtocol
     private let cartDB: CartDB
+    private let favoriteDB: FavoriteDB
     private var products: [Product] = []
     private var filteredProducts: [Product] = []
     
@@ -28,9 +29,14 @@ final class ProductListViewModel {
         return SortOption.allCases.map { $0.rawValue }
     }
     
-    init(networkManager: NetworkManagerProtocol = NetworkManager.shared, cartDB: CartDB = CartDB(strategy: CoreDataCartDB())) {
+    init(
+        networkManager: NetworkManagerProtocol = NetworkManager.shared,
+        cartDB: CartDB = CartDB(strategy: CoreDataCartDB()),
+        favoriteDB: FavoriteDB = FavoriteDB(strategy: CoreDataFavoriteDB())
+    ) {
         self.networkManager = networkManager
         self.cartDB = cartDB
+        self.favoriteDB = favoriteDB
     }
     
     var numberOfItems: Int {
@@ -150,11 +156,20 @@ final class ProductListViewModel {
     }
     
     func addToCart(product: Product) {
-        do {
-            try cartDB.insert(product: product)
-            // TODO: Show success message
-        } catch {
-            // TODO: Show error message
-        }
+        try? cartDB.insert(product: product)
+    }
+    
+    func toggleFavorite(product: Product) {
+        try? favoriteDB.toggle(product: product)
+    }
+    
+    func isFavorite(product: Product) -> Bool {
+        let favoriteProducts = getFavoriteProducts()
+        return favoriteProducts.contains(product.id ?? "")
+    }
+    
+    func getFavoriteProducts() -> [String] {
+        guard let favoriteProducts = try? favoriteDB.fetchAll() else { return [] }
+        return favoriteProducts.compactMap { $0.id }
     }
 }

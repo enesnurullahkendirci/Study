@@ -42,9 +42,12 @@
 		697551EB2BFAA68100CC964F /* FilterViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551EA2BFAA68100CC964F /* FilterViewModelTest.swift */; };
 		697551ED2BFAB0F600CC964F /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551EC2BFAB0F600CC964F /* String+Date.swift */; };
 		697551F02BFB356400CC964F /* NetworkManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551EF2BFB356300CC964F /* NetworkManagerTests.swift */; };
-		697551F32BFB3D4F00CC964F /* CartDBProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551F22BFB3D4F00CC964F /* CartDBProtocol.swift */; };
+		697551F32BFB3D4F00CC964F /* CartDBStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551F22BFB3D4F00CC964F /* CartDBStrategy.swift */; };
 		697551F52BFB3D8500CC964F /* CoreDataCartDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551F42BFB3D8500CC964F /* CoreDataCartDB.swift */; };
 		697551F72BFB3DDD00CC964F /* CartDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551F62BFB3DDD00CC964F /* CartDB.swift */; };
+		697551FB2BFB4AC400CC964F /* FavoriteDBStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551FA2BFB4AC400CC964F /* FavoriteDBStrategy.swift */; };
+		697551FD2BFB4AD100CC964F /* CoreDataFavoriteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551FC2BFB4AD100CC964F /* CoreDataFavoriteDB.swift */; };
+		697551FF2BFB4AD900CC964F /* FavoriteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551FE2BFB4AD900CC964F /* FavoriteDB.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,9 +107,12 @@
 		697551EA2BFAA68100CC964F /* FilterViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModelTest.swift; sourceTree = "<group>"; };
 		697551EC2BFAB0F600CC964F /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		697551EF2BFB356300CC964F /* NetworkManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManagerTests.swift; sourceTree = "<group>"; };
-		697551F22BFB3D4F00CC964F /* CartDBProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartDBProtocol.swift; sourceTree = "<group>"; };
+		697551F22BFB3D4F00CC964F /* CartDBStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartDBStrategy.swift; sourceTree = "<group>"; };
 		697551F42BFB3D8500CC964F /* CoreDataCartDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataCartDB.swift; sourceTree = "<group>"; };
 		697551F62BFB3DDD00CC964F /* CartDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartDB.swift; sourceTree = "<group>"; };
+		697551FA2BFB4AC400CC964F /* FavoriteDBStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDBStrategy.swift; sourceTree = "<group>"; };
+		697551FC2BFB4AD100CC964F /* CoreDataFavoriteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFavoriteDB.swift; sourceTree = "<group>"; };
+		697551FE2BFB4AD900CC964F /* FavoriteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteDB.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,6 +373,7 @@
 		697551F12BFB3D4000CC964F /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				697551F92BFB4AAB00CC964F /* FavoriteDatabase */,
 				697551F82BFB4A8400CC964F /* CartDatabase */,
 			);
 			path = Database;
@@ -375,11 +382,21 @@
 		697551F82BFB4A8400CC964F /* CartDatabase */ = {
 			isa = PBXGroup;
 			children = (
-				697551F22BFB3D4F00CC964F /* CartDBProtocol.swift */,
+				697551F22BFB3D4F00CC964F /* CartDBStrategy.swift */,
 				697551F42BFB3D8500CC964F /* CoreDataCartDB.swift */,
 				697551F62BFB3DDD00CC964F /* CartDB.swift */,
 			);
 			path = CartDatabase;
+			sourceTree = "<group>";
+		};
+		697551F92BFB4AAB00CC964F /* FavoriteDatabase */ = {
+			isa = PBXGroup;
+			children = (
+				697551FA2BFB4AC400CC964F /* FavoriteDBStrategy.swift */,
+				697551FC2BFB4AD100CC964F /* CoreDataFavoriteDB.swift */,
+				697551FE2BFB4AD900CC964F /* FavoriteDB.swift */,
+			);
+			path = FavoriteDatabase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -524,11 +541,14 @@
 				697551A72BF7BCAA00CC964F /* MainTabBarController.swift in Sources */,
 				697551CA2BF932B700CC964F /* NetworkManager.swift in Sources */,
 				697551722BF7B85100CC964F /* SceneDelegate.swift in Sources */,
+				697551FD2BFB4AD100CC964F /* CoreDataFavoriteDB.swift in Sources */,
 				697551E62BFA055D00CC964F /* FilterSectionHeaderView.swift in Sources */,
 				697551B82BF7CBE100CC964F /* BaseViewController.swift in Sources */,
 				697551AC2BF7BD0100CC964F /* CartViewController.swift in Sources */,
 				697551B02BF7BD1300CC964F /* ProfileViewController.swift in Sources */,
 				697551BA2BF8047E00CC964F /* UIColor+HexCode.swift in Sources */,
+				697551FB2BFB4AC400CC964F /* FavoriteDBStrategy.swift in Sources */,
+				697551FF2BFB4AD900CC964F /* FavoriteDB.swift in Sources */,
 				697551E12BF9F20200CC964F /* SortByTableViewCell.swift in Sources */,
 				697551E32BF9F78B00CC964F /* FilterOptionTableViewCell.swift in Sources */,
 				697551C02BF9267D00CC964F /* ProductCollectionViewCell.swift in Sources */,
@@ -537,7 +557,7 @@
 				697551DC2BF9EE6D00CC964F /* FilterViewController.swift in Sources */,
 				6975517A2BF7B85100CC964F /* EnesKendirciCaseStudy.xcdatamodeld in Sources */,
 				697551CF2BF9330C00CC964F /* ProductViewModel.swift in Sources */,
-				697551F32BFB3D4F00CC964F /* CartDBProtocol.swift in Sources */,
+				697551F32BFB3D4F00CC964F /* CartDBStrategy.swift in Sources */,
 				697551C82BF9328200CC964F /* NetworkManagerProtocol.swift in Sources */,
 				697551C32BF92ED400CC964F /* Product.swift in Sources */,
 				697551CD2BF932EC00CC964F /* ProductRequest.swift in Sources */,
