@@ -186,18 +186,13 @@
 		6975516E2BF7B85100CC964F /* EnesKendirciCaseStudy */ = {
 			isa = PBXGroup;
 			children = (
-				697552062BFB947700CC964F /* ProductDetailViewController */,
+				697552192BFBBC5700CC964F /* Screens */,
 				697551F12BFB3D4000CC964F /* Database */,
-				697551DA2BF9EE6400CC964F /* Filter */,
 				697551C62BF9325D00CC964F /* NetworkLayer */,
 				697551C12BF92EC900CC964F /* Model */,
 				697551BB2BF80BEB00CC964F /* UIComponents */,
 				697551B62BF7CBD900CC964F /* Base */,
-				697551AA2BF7BCF700CC964F /* Profile */,
-				697551A92BF7BCEE00CC964F /* Favorites */,
-				697551A82BF7BCD200CC964F /* Cart */,
 				697551A52BF7BC9200CC964F /* TabBar */,
-				697551A22BF7B8AD00CC964F /* ProductList */,
 				697551B32BF7BE2D00CC964F /* Utility */,
 				6975516F2BF7B85100CC964F /* AppDelegate.swift */,
 				697551712BF7B85100CC964F /* SceneDelegate.swift */,
@@ -430,13 +425,13 @@
 			path = FavoriteDatabase;
 			sourceTree = "<group>";
 		};
-		697552062BFB947700CC964F /* ProductDetailViewController */ = {
+		697552062BFB947700CC964F /* ProductDetail */ = {
 			isa = PBXGroup;
 			children = (
 				697552072BFB949000CC964F /* ProductDetailViewController.swift */,
 				697552092BFB9AE100CC964F /* ProductDetailViewModel.swift */,
 			);
-			path = ProductDetailViewController;
+			path = ProductDetail;
 			sourceTree = "<group>";
 		};
 		697552112BFBAF6900CC964F /* Database */ = {
@@ -454,6 +449,19 @@
 				697552152BFBB08300CC964F /* CartViewModelTests.swift */,
 			);
 			path = Cart;
+			sourceTree = "<group>";
+		};
+		697552192BFBBC5700CC964F /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				697552062BFB947700CC964F /* ProductDetail */,
+				697551DA2BF9EE6400CC964F /* Filter */,
+				697551AA2BF7BCF700CC964F /* Profile */,
+				697551A92BF7BCEE00CC964F /* Favorites */,
+				697551A82BF7BCD200CC964F /* Cart */,
+				697551A22BF7B8AD00CC964F /* ProductList */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
