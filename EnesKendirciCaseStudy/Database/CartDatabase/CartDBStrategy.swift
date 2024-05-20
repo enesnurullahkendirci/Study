@@ -8,7 +8,8 @@
 import Foundation
 
 protocol CartDBStrategy {
-    func insert(product: Product) throws
+    func add(product: Product) throws
+    func update(product: Product) throws
     func delete(product: Product) throws
     func fetchAll() throws -> [Product]
 }

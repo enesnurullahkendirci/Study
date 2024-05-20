@@ -19,12 +19,34 @@ class CartDB {
     }
 
     func insert(product: Product) throws {
-        try strategy.insert(product: product)
+        var products = try strategy.fetchAll()
+        
+        if let index = products.firstIndex(where: { $0.id == product.id }) {
+            var existingProduct = products[index]
+            existingProduct.quantity = (existingProduct.quantity ?? 0) + 1
+            try strategy.update(product: existingProduct)
+        } else {
+            var newProduct = product
+            newProduct.quantity = 1
+            try strategy.add(product: newProduct)
+        }
+        
         NotificationCenter.default.post(name: Notification.Name("CartDBChange"), object: nil)
     }
 
     func delete(product: Product) throws {
-        try strategy.delete(product: product)
+        var products = try strategy.fetchAll()
+        
+        if let index = products.firstIndex(where: { $0.id == product.id }) {
+            var existingProduct = products[index]
+            if existingProduct.quantity ?? 0 > 1 {
+                existingProduct.quantity = (existingProduct.quantity ?? 0) - 1
+                try strategy.update(product: existingProduct)
+            } else {
+                try strategy.delete(product: existingProduct)
+            }
+        }
+        
         NotificationCenter.default.post(name: Notification.Name("CartDBChange"), object: nil)
     }
 

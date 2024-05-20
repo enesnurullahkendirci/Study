@@ -15,33 +15,35 @@ class CoreDataCartDB: CartDBStrategy {
         self.context = context
     }
 
-    func insert(product: Product) throws {
+    func add(product: Product) throws {
+        guard let entity = NSEntityDescription.entity(forEntityName: "CartItem", in: context) else {
+            throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Entity not found"])
+        }
+        let cartItem = NSManagedObject(entity: entity, insertInto: context)
+
+        cartItem.setValue(product.id, forKey: "id")
+        cartItem.setValue(product.name, forKey: "name")
+        cartItem.setValue(product.image, forKey: "image")
+        cartItem.setValue(product.price, forKey: "price")
+        cartItem.setValue(product.description, forKey: "desc")
+        cartItem.setValue(product.model, forKey: "model")
+        cartItem.setValue(product.brand, forKey: "brand")
+        cartItem.setValue(product.createdAt, forKey: "createdAt")
+        cartItem.setValue(product.quantity, forKey: "quantity")
+
+        try context.save()
+    }
+
+    func update(product: Product) throws {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CartItem")
         fetchRequest.predicate = NSPredicate(format: "id == %@", product.id ?? "")
 
         let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
         
         if let cartItem = objects?.first {
-            let currentQuantity = cartItem.value(forKey: "quantity") as? Int16 ?? 0
-            cartItem.setValue(currentQuantity + 1, forKey: "quantity")
-        } else {
-            guard let entity = NSEntityDescription.entity(forEntityName: "CartItem", in: context) else {
-                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Entity not found"])
-            }
-            let cartItem = NSManagedObject(entity: entity, insertInto: context)
-
-            cartItem.setValue(product.id, forKey: "id")
-            cartItem.setValue(product.name, forKey: "name")
-            cartItem.setValue(product.image, forKey: "image")
-            cartItem.setValue(product.price, forKey: "price")
-            cartItem.setValue(product.description, forKey: "desc")
-            cartItem.setValue(product.model, forKey: "model")
-            cartItem.setValue(product.brand, forKey: "brand")
-            cartItem.setValue(product.createdAt, forKey: "createdAt")
-            cartItem.setValue(1, forKey: "quantity")
+            cartItem.setValue(product.quantity, forKey: "quantity")
+            try context.save()
         }
-
-        try context.save()
     }
 
     func delete(product: Product) throws {
@@ -51,12 +53,7 @@ class CoreDataCartDB: CartDBStrategy {
         let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
         
         if let cartItem = objects?.first {
-            let currentQuantity = cartItem.value(forKey: "quantity") as? Int16 ?? 0
-            if currentQuantity > 1 {
-                cartItem.setValue(currentQuantity - 1, forKey: "quantity")
-            } else {
-                context.delete(cartItem)
-            }
+            context.delete(cartItem)
             try context.save()
         }
     }
