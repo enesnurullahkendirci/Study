@@ -20,10 +20,12 @@ class CartDB {
 
     func insert(product: Product) throws {
         try strategy.insert(product: product)
+        NotificationCenter.default.post(name: Notification.Name("CartDBChange"), object: nil)
     }
 
     func delete(product: Product) throws {
         try strategy.delete(product: product)
+        NotificationCenter.default.post(name: Notification.Name("CartDBChange"), object: nil)
     }
 
     func fetchAll() throws -> [Product] {

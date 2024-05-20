@@ -8,20 +8,25 @@
 import UIKit
 
 final class MainTabBarController: UITabBarController {
+    
+    let viewModel = MainTabBarViewModel()
+    
+    var productListViewController = UINavigationController(rootViewController: ProductListViewController())
+    var cartViewController = UINavigationController(rootViewController: CartViewController())
+    var favoritesViewController = UINavigationController(rootViewController: FavoritesViewController())
+    var profileViewController = UINavigationController(rootViewController: ProfileViewController())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        viewModel.onCartItemsCountChange = { [weak self] count in
+            self?.cartViewController.tabBarItem.badgeValue = count
+        }
         
-        let productListViewController = UINavigationController(rootViewController: ProductListViewController())
         productListViewController.tabBarItem = UITabBarItem(title: "", image: UIImage(resource: .iconHome), tag: 0)
-        
-        let cartViewController = UINavigationController(rootViewController: CartViewController())
         cartViewController.tabBarItem = UITabBarItem(title: "", image: UIImage(resource: .iconBasket), tag: 1)
-        cartViewController.tabBarItem.badgeValue = "3" // TODO: Dinamik olarak değişecek
-        
-        let favoritesViewController = UINavigationController(rootViewController: FavoritesViewController())
+        cartViewController.tabBarItem.badgeValue = viewModel.getCartItemsCount()
         favoritesViewController.tabBarItem = UITabBarItem(title: "", image: UIImage(resource: .iconStar), tag: 2)
-        
-        let profileViewController = UINavigationController(rootViewController: ProfileViewController())
         profileViewController.tabBarItem = UITabBarItem(title: "", image: UIImage(resource: .iconPerson), tag: 3)
         
         viewControllers = [

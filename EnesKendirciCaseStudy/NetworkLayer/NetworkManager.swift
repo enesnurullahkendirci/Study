@@ -40,7 +40,6 @@ final class NetworkManager: NetworkManagerProtocol {
     }
     
     func loadImage(from url: URL, completion: @escaping (UIImage?) -> Void) {
-        // TODO: Cache image
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 print("Image loading error: \(error.localizedDescription)")
