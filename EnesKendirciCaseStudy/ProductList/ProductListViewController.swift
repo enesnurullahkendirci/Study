@@ -113,7 +113,7 @@ final class ProductListViewController: BaseViewController {
     
     @objc private func didTapFilterButton() {
         let filterOptions = viewModel.getFilterOptions()
-        let filterViewController = FilterViewController(filterOptions: filterOptions, sortOptions: viewModel.sortOptions)
+        let filterViewController = FilterViewController(filterOptions: filterOptions, sortOptions: viewModel.sortOptionCases)
         filterViewController.delegate = self
         filterViewController.modalPresentationStyle = .automatic
         present(filterViewController, animated: true, completion: nil)
@@ -149,7 +149,7 @@ extension ProductListViewController: UISearchBarDelegate {
 
 extension ProductListViewController: FilterViewControllerDelegate {
     func didApplyFilters(selectedFilters: [String : [String]], selectedSortOptions: String?) {
-        viewModel.applyFilters(selectedFilters: selectedFilters, selectedSortOptions: selectedSortOptions) { [weak self] in
+        viewModel.applyFilters(selectedFilters: selectedFilters, selectedSortOption: selectedSortOptions) { [weak self] in
             self?.collectionView.reloadData()
         }
     }

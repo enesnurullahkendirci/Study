@@ -13,10 +13,19 @@ final class ProductListViewModel {
     private var filteredProducts: [Product] = []
     
     private var selectedFilters: [String: [String]] = [:]
-    private var selectedSortOptions: String?
+    private var selectedSortOption: SortOption?
     private var searchText: String = ""
     
-    let sortOptions = ["Old to new", "New to old", "Price high to low", "Price low to high"]
+    enum SortOption: String, CaseIterable {
+        case oldToNew = "Old to new"
+        case newToOld = "New to old"
+        case priceHighToLow = "Price high to low"
+        case priceLowToHigh = "Price low to high"
+    }
+    
+    var sortOptionCases: [String] {
+        return SortOption.allCases.map { $0.rawValue }
+    }
     
     init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
         self.networkManager = networkManager
@@ -87,39 +96,37 @@ final class ProductListViewModel {
     }
     
     private func sortProducts() {
-        guard let sortOption = selectedSortOptions else { return }
+        guard let sortOption = selectedSortOption else { return }
         
         switch sortOption {
-        case "Old to new":
+        case .oldToNew:
             filteredProducts.sort { product1, product2 in
                 if let date1 = product1.createdAt?.toDate(), let date2 = product2.createdAt?.toDate() {
                     return date1 < date2
                 }
                 return false
             }
-        case "New to old":
+        case .newToOld:
             filteredProducts.sort { product1, product2 in
                 if let date1 = product1.createdAt?.toDate(), let date2 = product2.createdAt?.toDate() {
                     return date1 > date2
                 }
                 return false
             }
-        case "Price high to low":
+        case .priceHighToLow:
             filteredProducts.sort { product1, product2 in
                 if let price1 = Double(product1.price ?? ""), let price2 = Double(product2.price ?? "") {
                     return price1 > price2
                 }
                 return false
             }
-        case "Price low to high":
+        case .priceLowToHigh:
             filteredProducts.sort { product1, product2 in
                 if let price1 = Double(product1.price ?? ""), let price2 = Double(product2.price ?? "") {
                     return price1 < price2
                 }
                 return false
             }
-        default:
-            break
         }
     }
     
@@ -129,9 +136,9 @@ final class ProductListViewModel {
         completion()
     }
     
-    func applyFilters(selectedFilters: [String: [String]], selectedSortOptions: String?, completion: @escaping () -> Void) {
+    func applyFilters(selectedFilters: [String: [String]], selectedSortOption: String?, completion: @escaping () -> Void) {
         self.selectedFilters = selectedFilters
-        self.selectedSortOptions = selectedSortOptions
+        self.selectedSortOption = SortOption(rawValue: selectedSortOption ?? "")
         applyFiltersAndSearch(completion: completion)
     }
     
