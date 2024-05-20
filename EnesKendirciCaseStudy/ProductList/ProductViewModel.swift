@@ -9,6 +9,7 @@ import Foundation
 
 final class ProductListViewModel {
     private let networkManager: NetworkManagerProtocol
+    private let cartDB: CartDB
     private var products: [Product] = []
     private var filteredProducts: [Product] = []
     
@@ -27,8 +28,9 @@ final class ProductListViewModel {
         return SortOption.allCases.map { $0.rawValue }
     }
     
-    init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
+    init(networkManager: NetworkManagerProtocol = NetworkManager.shared, cartDB: CartDB = CartDB(strategy: CoreDataCartDB())) {
         self.networkManager = networkManager
+        self.cartDB = cartDB
     }
     
     var numberOfItems: Int {
@@ -145,5 +147,14 @@ final class ProductListViewModel {
     func filterProducts(by searchText: String, completion: @escaping () -> Void) {
         self.searchText = searchText
         applyFiltersAndSearch(completion: completion)
+    }
+    
+    func addToCart(product: Product) {
+        do {
+            try cartDB.insert(product: product)
+            // TODO: Show success message
+        } catch {
+            // TODO: Show error message
+        }
     }
 }

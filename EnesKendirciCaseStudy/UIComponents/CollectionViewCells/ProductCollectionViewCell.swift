@@ -25,6 +25,7 @@ final class ProductCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "star"), for: .normal)
         button.tintColor = .yellow
+        button.target(forAction: #selector(didTapFavoriteButton), withSender: self)
         return button
     }()
     
@@ -51,8 +52,13 @@ final class ProductCollectionViewCell: UICollectionViewCell {
         button.backgroundColor = UIColor(hex: "#2A59FE")
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(didTapAddToCartButton), for: .touchUpInside)
         return button
     }()
+    
+    private var product: Product?
+    var onFavoriteButtonTapped: ((Product?) -> Void)?
+    var onAddToCartButtonTapped: ((Product?) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -103,6 +109,7 @@ final class ProductCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with product: Product) {
+        self.product = product
         productNameLabel.text = product.name
         guard let price = product.price else { return }
         productPriceLabel.text = "\(price) ₺"
@@ -114,5 +121,13 @@ final class ProductCollectionViewCell: UICollectionViewCell {
                 self?.productImageView.image = image
             }
         }
+    }
+    
+    @objc private func didTapAddToCartButton() {
+        onAddToCartButtonTapped?(product)
+    }
+    
+    @objc private func didTapFavoriteButton() {
+        onFavoriteButtonTapped?(product)
     }
 }

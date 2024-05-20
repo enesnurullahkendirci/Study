@@ -131,6 +131,16 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
         }
         let product = viewModel.product(at: indexPath.row)
         cell.configure(with: product)
+        cell.onAddToCartButtonTapped = { [weak self] product in
+            guard let product else { return }
+            
+            self?.viewModel.addToCart(product: product)
+        }
+        cell.onFavoriteButtonTapped = { [weak self] product in
+            guard let product else { return }
+            
+//            self?.viewModel.toggleFavorite(product: product)
+        }
         return cell
     }
 
