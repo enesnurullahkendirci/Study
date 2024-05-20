@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CartTableViewCell: UITableViewCell {
+final class CartTableViewCell: BaseTableViewCell {
     
     static let reuseIdentifier = "CartTableViewCell"
     

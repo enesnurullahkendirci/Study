@@ -13,7 +13,12 @@ final class NetworkManager: NetworkManagerProtocol {
     private init() {}
     
     func fetch<T: BaseRequest>(_ request: T, completion: @escaping (Result<T.ResponseType, Error>) -> Void) {
+        NotificationCenter.default.post(name: .didStartLoading, object: nil)
+
         let task = URLSession.shared.dataTask(with: request.url) { data, response, error in
+            defer {
+                NotificationCenter.default.post(name: .didFinishLoading, object: nil)
+            }
             if let error = error {
                 completion(.failure(error))
                 return
@@ -60,4 +65,9 @@ final class NetworkManager: NetworkManagerProtocol {
         case invalidURL
         case noData
     }
+}
+
+extension Notification.Name {
+    static let didStartLoading = Notification.Name("didStartLoading")
+    static let didFinishLoading = Notification.Name("didFinishLoading")
 }

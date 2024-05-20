@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FilterOptionTableViewCell: UITableViewCell {
+class FilterOptionTableViewCell: BaseTableViewCell {
 
     static let reuseIdentifier = "FilterOptionTableViewCell"
 

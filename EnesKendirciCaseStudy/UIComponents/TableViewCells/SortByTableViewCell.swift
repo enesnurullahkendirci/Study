@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SortByTableViewCell: UITableViewCell {
+class SortByTableViewCell: BaseTableViewCell {
     
     static let reuseIdentifier = "SortByTableViewCell"
     

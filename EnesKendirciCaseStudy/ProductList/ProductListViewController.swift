@@ -149,7 +149,9 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO: - Implement product detail navigation
+        let product = viewModel.product(at: indexPath.row)
+        let productDetailViewController = ProductDetailViewController(product: product)
+        navigationController?.pushViewController(productDetailViewController, animated: true)
     }
 }
 
