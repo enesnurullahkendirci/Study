@@ -21,7 +21,9 @@ final class FilterViewController: UIViewController {
     private let applyButtonHeight: CGFloat = 44
     
     private lazy var sortTableView: UITableView = {
-        return createTableView()
+        let temp = createTableView()
+        temp.isScrollEnabled = false
+        return temp
     }()
     
     private lazy var separatorView: UIView = {

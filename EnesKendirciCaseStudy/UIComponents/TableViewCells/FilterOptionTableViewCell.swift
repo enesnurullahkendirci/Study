@@ -9,8 +9,6 @@ import UIKit
 
 class FilterOptionTableViewCell: BaseTableViewCell {
 
-    static let reuseIdentifier = "FilterOptionTableViewCell"
-
     private let optionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

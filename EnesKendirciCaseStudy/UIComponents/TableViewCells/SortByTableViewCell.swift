@@ -9,8 +9,6 @@ import UIKit
 
 class SortByTableViewCell: BaseTableViewCell {
     
-    static let reuseIdentifier = "SortByTableViewCell"
-    
     private let sortOptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

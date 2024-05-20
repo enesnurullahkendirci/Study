@@ -9,8 +9,6 @@ import UIKit
 
 final class CartTableViewCell: BaseTableViewCell {
     
-    static let reuseIdentifier = "CartTableViewCell"
-    
     private let nameLabel = UILabel()
     private let priceLabel = UILabel()
     private let quantityLabel = UILabel()
