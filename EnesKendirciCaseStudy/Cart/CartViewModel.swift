@@ -31,7 +31,7 @@ final class CartViewModel {
     }
     
     func listenCartItems() {
-        NotificationCenter.default.addObserver(self, selector: #selector(loadCartItems), name: Notification.Name("CartDBChange"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(loadCartItems), name: .cartDBChange, object: nil)
     }
 
     @objc func loadCartItems() {

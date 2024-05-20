@@ -12,11 +12,15 @@ class ProductListViewModelTest: XCTestCase {
     
     var viewModel: ProductListViewModel!
     var mockNetworkManager: MockNetworkManager!
+    var mockCartDB: CartDB!
+    var mockFavoriteDB: FavoriteDB!
     
     override func setUp() {
         super.setUp()
         mockNetworkManager = MockNetworkManager()
-        viewModel = ProductListViewModel(networkManager: mockNetworkManager)
+        mockCartDB = CartDB(strategy: MockCartDBStrategy())
+        mockFavoriteDB = FavoriteDB(strategy: MockFavoriteDBStrategy())
+        viewModel = ProductListViewModel(networkManager: mockNetworkManager, cartDB: mockCartDB, favoriteDB: mockFavoriteDB)
     }
     
     override func tearDown() {
@@ -158,5 +162,55 @@ class ProductListViewModelTest: XCTestCase {
             }
         }
         waitForExpectations(timeout: 5, handler: nil)
+    }
+    
+    func testAddToCart() {
+        let product = Product(id: "1", name: "Product 1", image: "image1", price: "100", description: "Description 1", model: "Model 1", brand: "Brand 1", createdAt: "2023-05-01", quantity: 1)
+        
+        viewModel.addToCart(product: product)
+        
+        let cartItems = try? mockCartDB.fetchAll()
+        XCTAssertEqual(cartItems?.count, 1)
+        XCTAssertEqual(cartItems?.first?.id, product.id)
+    }
+    
+    func testToggleFavorite() {
+        let product = Product(id: "1", name: "Product 1", image: "image1", price: "100", description: "Description 1", model: "Model 1", brand: "Brand 1", createdAt: "2023-05-01", quantity: 1)
+        
+        viewModel.toggleFavorite(product: product)
+        
+        var favoriteProducts = try? mockFavoriteDB.fetchAll()
+        XCTAssertEqual(favoriteProducts?.count, 1)
+        XCTAssertEqual(favoriteProducts?.first?.id, product.id)
+        
+        viewModel.toggleFavorite(product: product)
+        
+        favoriteProducts = try? mockFavoriteDB.fetchAll()
+        XCTAssertEqual(favoriteProducts?.count, 0)
+    }
+    
+    func testIsFavorite() {
+        let product = Product(id: "1", name: "Product 1", image: "image1", price: "100", description: "Description 1", model: "Model 1", brand: "Brand 1", createdAt: "2023-05-01", quantity: 1)
+        
+        viewModel.toggleFavorite(product: product)
+        
+        XCTAssertTrue(viewModel.isFavorite(product: product))
+        
+        viewModel.toggleFavorite(product: product)
+        
+        XCTAssertFalse(viewModel.isFavorite(product: product))
+    }
+    
+    func testGetFavoriteProducts() {
+        let product1 = Product(id: "1", name: "Product 1", image: "image1", price: "100", description: "Description 1", model: "Model 1", brand: "Brand 1", createdAt: "2023-05-01", quantity: 1)
+        let product2 = Product(id: "2", name: "Product 2", image: "image2", price: "200", description: "Description 2", model: "Model 2", brand: "Brand 2", createdAt: "2023-05-02", quantity: 1)
+        
+        viewModel.toggleFavorite(product: product1)
+        viewModel.toggleFavorite(product: product2)
+        
+        let favoriteProductIds = viewModel.getFavoriteProducts()
+        XCTAssertEqual(favoriteProductIds.count, 2)
+        XCTAssertTrue(favoriteProductIds.contains(product1.id ?? ""))
+        XCTAssertTrue(favoriteProductIds.contains(product2.id ?? ""))
     }
 }

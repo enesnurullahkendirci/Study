@@ -10,44 +10,45 @@ import UIKit
 
 class CoreDataCartDB: CartDBStrategy {
     private let context: NSManagedObjectContext
+    private let entityName = "CartItem"
 
     init(context: NSManagedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext) {
         self.context = context
     }
 
     func add(product: Product) throws {
-        guard let entity = NSEntityDescription.entity(forEntityName: "CartItem", in: context) else {
+        guard let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) else {
             throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Entity not found"])
         }
         let cartItem = NSManagedObject(entity: entity, insertInto: context)
 
-        cartItem.setValue(product.id, forKey: "id")
-        cartItem.setValue(product.name, forKey: "name")
-        cartItem.setValue(product.image, forKey: "image")
-        cartItem.setValue(product.price, forKey: "price")
-        cartItem.setValue(product.description, forKey: "desc")
-        cartItem.setValue(product.model, forKey: "model")
-        cartItem.setValue(product.brand, forKey: "brand")
-        cartItem.setValue(product.createdAt, forKey: "createdAt")
-        cartItem.setValue(product.quantity, forKey: "quantity")
+        cartItem.setValue(product.id, forKey: ProductKey.id.rawValue)
+        cartItem.setValue(product.name, forKey: ProductKey.name.rawValue)
+        cartItem.setValue(product.image, forKey: ProductKey.image.rawValue)
+        cartItem.setValue(product.price, forKey: ProductKey.price.rawValue)
+        cartItem.setValue(product.description, forKey: ProductKey.description.rawValue)
+        cartItem.setValue(product.model, forKey: ProductKey.model.rawValue)
+        cartItem.setValue(product.brand, forKey: ProductKey.brand.rawValue)
+        cartItem.setValue(product.createdAt, forKey: ProductKey.createdAt.rawValue)
+        cartItem.setValue(product.quantity, forKey: ProductKey.quantity.rawValue)
 
         try context.save()
     }
 
     func update(product: Product) throws {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CartItem")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetchRequest.predicate = NSPredicate(format: "id == %@", product.id ?? "")
 
         let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
         
         if let cartItem = objects?.first {
-            cartItem.setValue(product.quantity, forKey: "quantity")
+            cartItem.setValue(product.quantity, forKey: ProductKey.quantity.rawValue)
             try context.save()
         }
     }
 
     func delete(product: Product) throws {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CartItem")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         fetchRequest.predicate = NSPredicate(format: "id == %@", product.id ?? "")
 
         let objects = try context.fetch(fetchRequest) as? [NSManagedObject]
@@ -59,20 +60,20 @@ class CoreDataCartDB: CartDBStrategy {
     }
 
     func fetchAll() throws -> [Product] {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CartItem")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
         let result = try context.fetch(fetchRequest) as? [NSManagedObject] ?? []
 
         return result.map {
             Product(
-                id: $0.value(forKey: "id") as? String,
-                name: $0.value(forKey: "name") as? String,
-                image: $0.value(forKey: "image") as? String,
-                price: $0.value(forKey: "price") as? String,
-                description: $0.value(forKey: "desc") as? String,
-                model: $0.value(forKey: "model") as? String,
-                brand: $0.value(forKey: "brand") as? String,
-                createdAt: $0.value(forKey: "createdAt") as? String,
-                quantity: $0.value(forKey: "quantity") as? Int
+                id: $0.value(forKey: ProductKey.id.rawValue) as? String,
+                name: $0.value(forKey: ProductKey.name.rawValue) as? String,
+                image: $0.value(forKey: ProductKey.image.rawValue) as? String,
+                price: $0.value(forKey: ProductKey.price.rawValue) as? String,
+                description: $0.value(forKey: ProductKey.description.rawValue) as? String,
+                model: $0.value(forKey: ProductKey.model.rawValue) as? String,
+                brand: $0.value(forKey: ProductKey.brand.rawValue) as? String,
+                createdAt: $0.value(forKey: ProductKey.createdAt.rawValue) as? String,
+                quantity: $0.value(forKey: ProductKey.quantity.rawValue) as? Int
             )
         }
     }

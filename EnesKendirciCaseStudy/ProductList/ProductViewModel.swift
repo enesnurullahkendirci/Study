@@ -25,6 +25,11 @@ final class ProductListViewModel {
         case priceLowToHigh = "Price low to high"
     }
     
+    enum FilterType: String {
+        case Brand
+        case Model
+    }
+    
     var sortOptionCases: [String] {
         return SortOption.allCases.map { $0.rawValue }
     }
@@ -80,18 +85,18 @@ final class ProductListViewModel {
         let brandArray = Array(brands).sorted()
         let modelArray = Array(models).sorted()
         
-        return [["Brand": brandArray], ["Model": modelArray]]
+        return [[FilterType.Brand.rawValue: brandArray], [FilterType.Model.rawValue: modelArray]]
     }
     
     private func filterProducts() {
         filteredProducts = products.filter { product in
             var matches = true
             
-            if let selectedBrands = selectedFilters["Brand"], !selectedBrands.isEmpty {
+            if let selectedBrands = selectedFilters[FilterType.Brand.rawValue], !selectedBrands.isEmpty {
                 matches = matches && selectedBrands.contains(product.brand ?? "")
             }
             
-            if let selectedModels = selectedFilters["Model"], !selectedModels.isEmpty {
+            if let selectedModels = selectedFilters[FilterType.Model.rawValue], !selectedModels.isEmpty {
                 matches = matches && selectedModels.contains(product.model ?? "")
             }
             

@@ -30,7 +30,7 @@ extension CartDBStrategy {
             try add(product: newProduct)
         }
         
-        NotificationCenter.default.post(name: Notification.Name("CartDBChange"), object: nil)
+        NotificationCenter.default.post(name: .cartDBChange, object: nil)
     }
     
     func removeFromCart(product: Product) throws {
@@ -46,6 +46,6 @@ extension CartDBStrategy {
             }
         }
         
-        NotificationCenter.default.post(name: Notification.Name("CartDBChange"), object: nil)
+        NotificationCenter.default.post(name: .cartDBChange, object: nil)
     }
 }

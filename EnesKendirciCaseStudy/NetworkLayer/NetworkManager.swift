@@ -66,8 +66,3 @@ final class NetworkManager: NetworkManagerProtocol {
         case noData
     }
 }
-
-extension Notification.Name {
-    static let didStartLoading = Notification.Name("didStartLoading")
-    static let didFinishLoading = Notification.Name("didFinishLoading")
-}

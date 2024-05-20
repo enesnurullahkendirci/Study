@@ -23,7 +23,5 @@ extension FavoriteDBStrategy {
         } else {
             try add(product: product)
         }
-        
-        NotificationCenter.default.post(name: Notification.Name("FavoriteDBChange"), object: nil)
     }
 }

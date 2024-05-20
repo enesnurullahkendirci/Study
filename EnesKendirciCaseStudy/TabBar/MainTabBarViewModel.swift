@@ -18,7 +18,7 @@ final class MainTabBarViewModel {
     }
     
     private func addObserverForCartDBChanges() {
-        NotificationCenter.default.addObserver(self, selector: #selector(cartItemsChanged), name: Notification.Name("CartDBChange"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(cartItemsChanged), name: .cartDBChange, object: nil)
     }
     
     @objc private func cartItemsChanged() {
