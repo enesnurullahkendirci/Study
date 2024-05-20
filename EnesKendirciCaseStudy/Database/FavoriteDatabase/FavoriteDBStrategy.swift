@@ -8,6 +8,7 @@
 import Foundation
 
 protocol FavoriteDBStrategy {
-    func toggle(product: Product) throws
+    func add(product: Product) throws
+    func delete(product: Product) throws
     func fetchAll() throws -> [Product]
 }

@@ -15,8 +15,25 @@ class CoreDataFavoriteDB: FavoriteDBStrategy {
         self.context = context
     }
 
-    func toggle(product: Product) throws {
-        
+    func add(product: Product) throws {
+        guard let entity = NSEntityDescription.entity(forEntityName: "FavoriteItem", in: context) else {
+            throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Entity not found"])
+        }
+        let favoriteItem = NSManagedObject(entity: entity, insertInto: context)
+
+        favoriteItem.setValue(product.id, forKey: "id")
+        favoriteItem.setValue(product.name, forKey: "name")
+        favoriteItem.setValue(product.image, forKey: "image")
+        favoriteItem.setValue(product.price, forKey: "price")
+        favoriteItem.setValue(product.description, forKey: "desc")
+        favoriteItem.setValue(product.model, forKey: "model")
+        favoriteItem.setValue(product.brand, forKey: "brand")
+        favoriteItem.setValue(product.createdAt, forKey: "createdAt")
+
+        try context.save()
+    }
+
+    func delete(product: Product) throws {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "FavoriteItem")
         fetchRequest.predicate = NSPredicate(format: "id == %@", product.id ?? "")
 
@@ -24,24 +41,8 @@ class CoreDataFavoriteDB: FavoriteDBStrategy {
         
         if let objects = objects, !objects.isEmpty {
             objects.forEach { context.delete($0) }
-        } else {
-            guard let entity = NSEntityDescription.entity(forEntityName: "FavoriteItem", in: context) else {
-                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Entity not found"])
-            }
-            let favoriteItem = NSManagedObject(entity: entity, insertInto: context)
-
-            favoriteItem.setValue(product.id, forKey: "id")
-            favoriteItem.setValue(product.name, forKey: "name")
-            favoriteItem.setValue(product.image, forKey: "image")
-            favoriteItem.setValue(product.price, forKey: "price")
-            favoriteItem.setValue(product.description, forKey: "desc")
-            favoriteItem.setValue(product.model, forKey: "model")
-            favoriteItem.setValue(product.brand, forKey: "brand")
-            favoriteItem.setValue(product.createdAt, forKey: "createdAt")
+            try context.save()
         }
-
-        // Değişiklikleri kaydet
-        try context.save()
     }
 
     func fetchAll() throws -> [Product] {

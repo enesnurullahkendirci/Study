@@ -19,9 +19,17 @@ class FavoriteDB {
     }
 
     func toggle(product: Product) throws {
-        try strategy.toggle(product: product)
+        let products = try strategy.fetchAll()
+        
+        if let index = products.firstIndex(where: { $0.id == product.id }) {
+            try strategy.delete(product: products[index])
+        } else {
+            try strategy.add(product: product)
+        }
+        
+        NotificationCenter.default.post(name: Notification.Name("FavoriteDBChange"), object: nil)
     }
-    
+
     func fetchAll() throws -> [Product] {
         return try strategy.fetchAll()
     }
