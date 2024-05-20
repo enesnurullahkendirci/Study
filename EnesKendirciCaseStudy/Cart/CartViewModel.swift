@@ -42,11 +42,11 @@ final class CartViewModel {
     }
 
     func increaseQuantity(of product: Product) {
-        try? cartDB.insert(product: product)
+        try? cartDB.addToCart(product: product)
     }
 
     func decreaseQuantity(of product: Product) {
-        try? cartDB.delete(product: product)
+        try? cartDB.removeFromCart(product: product)
     }
 
     func completePurchase() {

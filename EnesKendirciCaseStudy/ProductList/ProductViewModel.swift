@@ -156,7 +156,7 @@ final class ProductListViewModel {
     }
     
     func addToCart(product: Product) {
-        try? cartDB.insert(product: product)
+        try? cartDB.addToCart(product: product)
     }
     
     func toggleFavorite(product: Product) {

@@ -17,6 +17,6 @@ final class ProductDetailViewModel {
     }
     
     func addToCart(product: Product) {
-        try? cartDB.insert(product: product)
+        try? cartDB.addToCart(product: product)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FavoriteDB {
+class FavoriteDB: FavoriteDBStrategy {
     private var strategy: FavoriteDBStrategy
 
     init(strategy: FavoriteDBStrategy) {
@@ -18,19 +18,19 @@ class FavoriteDB {
         self.strategy = strategy
     }
 
-    func toggle(product: Product) throws {
-        let products = try strategy.fetchAll()
-        
-        if let index = products.firstIndex(where: { $0.id == product.id }) {
-            try strategy.delete(product: products[index])
-        } else {
-            try strategy.add(product: product)
-        }
-        
-        NotificationCenter.default.post(name: Notification.Name("FavoriteDBChange"), object: nil)
+    func add(product: Product) throws {
+        try strategy.add(product: product)
+    }
+
+    func delete(product: Product) throws {
+        try strategy.delete(product: product)
     }
 
     func fetchAll() throws -> [Product] {
         return try strategy.fetchAll()
+    }
+
+    func toggle(product: Product) throws {
+        try strategy.toggle(product: product)
     }
 }
