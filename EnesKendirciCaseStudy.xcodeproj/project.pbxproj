@@ -367,11 +367,19 @@
 		697551F12BFB3D4000CC964F /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				697551F82BFB4A8400CC964F /* CartDatabase */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		697551F82BFB4A8400CC964F /* CartDatabase */ = {
+			isa = PBXGroup;
+			children = (
 				697551F22BFB3D4F00CC964F /* CartDBProtocol.swift */,
 				697551F42BFB3D8500CC964F /* CoreDataCartDB.swift */,
 				697551F62BFB3DDD00CC964F /* CartDB.swift */,
 			);
-			path = Database;
+			path = CartDatabase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
