@@ -120,13 +120,6 @@ final class ProductListViewController: BaseViewController {
     }
 }
 
-extension ProductListViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // TODO: - Implement search functionality
-        
-    }
-}
-
 extension ProductListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.numberOfItems
@@ -146,10 +139,18 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
     }
 }
 
+extension ProductListViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.filterProducts(by: searchText) { [weak self] in
+            self?.collectionView.reloadData()
+        }
+    }
+}
+
 extension ProductListViewController: FilterViewControllerDelegate {
     func didApplyFilters(selectedFilters: [String : [String]], selectedSortOptions: String?) {
-        viewModel.applyFilters(selectedFilters: selectedFilters, selectedSortOptions: selectedSortOptions) {
-            self.collectionView.reloadData()
+        viewModel.applyFilters(selectedFilters: selectedFilters, selectedSortOptions: selectedSortOptions) { [weak self] in
+            self?.collectionView.reloadData()
         }
     }
 }

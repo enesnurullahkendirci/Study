@@ -12,6 +12,10 @@ final class ProductListViewModel {
     private var products: [Product] = []
     private var filteredProducts: [Product] = []
     
+    private var selectedFilters: [String: [String]] = [:]
+    private var selectedSortOptions: String?
+    private var searchText: String = ""
+    
     let sortOptions = ["Old to new", "New to old", "Price high to low", "Price low to high"]
     
     init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
@@ -19,19 +23,11 @@ final class ProductListViewModel {
     }
     
     var numberOfItems: Int {
-        if filteredProducts.isEmpty {
-            return products.count
-        } else {
-            return filteredProducts.count
-        }
+        return filteredProducts.count
     }
     
     func product(at index: Int) -> Product {
-        if filteredProducts.isEmpty {
-            return products[index]
-        } else {
-            return filteredProducts[index]
-        }
+        return filteredProducts[index]
     }
     
     func fetchProducts(completion: @escaping () -> Void) {
@@ -41,12 +37,12 @@ final class ProductListViewModel {
                 switch result {
                 case .success(let products):
                     self?.products = products
-                    self?.filteredProducts = products
+                    self?.applyFiltersAndSearch(completion: completion)
                 case .failure(let error):
                     print("Error fetching products: \(error)")
                     // TODO: Handle error
+                    completion()
                 }
-                completion()
             }
         }
     }
@@ -70,7 +66,7 @@ final class ProductListViewModel {
         return [["Brand": brandArray], ["Model": modelArray]]
     }
     
-    func applyFilters(selectedFilters: [String : [String]], selectedSortOptions: String?, completion: @escaping () -> Void) {
+    private func filterProducts() {
         filteredProducts = products.filter { product in
             var matches = true
             
@@ -82,44 +78,65 @@ final class ProductListViewModel {
                 matches = matches && selectedModels.contains(product.model ?? "")
             }
             
+            if !searchText.isEmpty {
+                matches = matches && (product.name?.lowercased().contains(searchText.lowercased()) ?? false)
+            }
+            
             return matches
         }
+    }
+    
+    private func sortProducts() {
+        guard let sortOption = selectedSortOptions else { return }
         
-        if let sortOption = selectedSortOptions {
-            switch sortOption {
-            case "Old to new":
-                filteredProducts.sort { product1, product2 in
-                    if let date1 = product1.createdAt?.toDate(), let date2 = product2.createdAt?.toDate() {
-                        return date1 < date2
-                    }
-                    return false
+        switch sortOption {
+        case "Old to new":
+            filteredProducts.sort { product1, product2 in
+                if let date1 = product1.createdAt?.toDate(), let date2 = product2.createdAt?.toDate() {
+                    return date1 < date2
                 }
-            case "New to old":
-                filteredProducts.sort { product1, product2 in
-                    if let date1 = product1.createdAt?.toDate(), let date2 = product2.createdAt?.toDate() {
-                        return date1 > date2
-                    }
-                    return false
-                }
-            case "Price high to low":
-                filteredProducts.sort { product1, product2 in
-                    if let price1 = Double(product1.price ?? ""), let price2 = Double(product2.price ?? "") {
-                        return price1 > price2
-                    }
-                    return false
-                }
-            case "Price low to high":
-                filteredProducts.sort { product1, product2 in
-                    if let price1 = Double(product1.price ?? ""), let price2 = Double(product2.price ?? "") {
-                        return price1 < price2
-                    }
-                    return false
-                }
-            default:
-                break
+                return false
             }
+        case "New to old":
+            filteredProducts.sort { product1, product2 in
+                if let date1 = product1.createdAt?.toDate(), let date2 = product2.createdAt?.toDate() {
+                    return date1 > date2
+                }
+                return false
+            }
+        case "Price high to low":
+            filteredProducts.sort { product1, product2 in
+                if let price1 = Double(product1.price ?? ""), let price2 = Double(product2.price ?? "") {
+                    return price1 > price2
+                }
+                return false
+            }
+        case "Price low to high":
+            filteredProducts.sort { product1, product2 in
+                if let price1 = Double(product1.price ?? ""), let price2 = Double(product2.price ?? "") {
+                    return price1 < price2
+                }
+                return false
+            }
+        default:
+            break
         }
-        
+    }
+    
+    private func applyFiltersAndSearch(completion: @escaping () -> Void) {
+        filterProducts()
+        sortProducts()
         completion()
+    }
+    
+    func applyFilters(selectedFilters: [String: [String]], selectedSortOptions: String?, completion: @escaping () -> Void) {
+        self.selectedFilters = selectedFilters
+        self.selectedSortOptions = selectedSortOptions
+        applyFiltersAndSearch(completion: completion)
+    }
+    
+    func filterProducts(by searchText: String, completion: @escaping () -> Void) {
+        self.searchText = searchText
+        applyFiltersAndSearch(completion: completion)
     }
 }
