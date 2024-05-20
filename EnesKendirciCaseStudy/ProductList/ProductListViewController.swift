@@ -123,25 +123,20 @@ final class ProductListViewController: BaseViewController {
 extension ProductListViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         // TODO: - Implement search functionality
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        // TODO: - Implement search functionality
-        searchBar.resignFirstResponder()
+        
     }
 }
 
 extension ProductListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.products.count
+        viewModel.numberOfItems
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCell.reuseIdentifier, for: indexPath) as? ProductCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let product = viewModel.products[indexPath.item]
-        cell.index = indexPath.row
+        let product = viewModel.product(at: indexPath.row)
         cell.configure(with: product)
         return cell
     }
@@ -153,5 +148,8 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
 
 extension ProductListViewController: FilterViewControllerDelegate {
     func didApplyFilters(selectedFilters: [String : [String]], selectedSortOptions: String?) {
+        viewModel.applyFilters(selectedFilters: selectedFilters, selectedSortOptions: selectedSortOptions) {
+            self.collectionView.reloadData()
+        }
     }
 }

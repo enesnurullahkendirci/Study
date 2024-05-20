@@ -19,7 +19,7 @@ final class FilterViewModel {
         self.sortOptions = sortOptions
         self.searchResults = filterOptions
     }
-
+    
     func numberOfRows(in section: Int) -> Int {
         if section == 0 {
             return sortOptions.count
@@ -27,7 +27,7 @@ final class FilterViewModel {
             return searchResults[section - 1].values.first?.count ?? 0
         }
     }
-
+    
     func option(at indexPath: IndexPath) -> String {
         if indexPath.section == 0 {
             return sortOptions[indexPath.row]
@@ -40,7 +40,7 @@ final class FilterViewModel {
             return values[indexPath.row]
         }
     }
-
+    
     func isSelected(at indexPath: IndexPath) -> Bool {
         if indexPath.section == 0 {
             return sortOptions[indexPath.row] == selectedSortOption
@@ -51,7 +51,7 @@ final class FilterViewModel {
             return selectedFilter[filterKey]?.contains(filterValues[indexPath.row]) ?? false
         }
     }
-
+    
     func selectOption(at indexPath: IndexPath) {
         if indexPath.section == 0 {
             selectedSortOption = sortOptions[indexPath.row]
@@ -90,4 +90,5 @@ final class FilterViewModel {
                 return newFilter
             }
         }
-    }}
+    }
+}

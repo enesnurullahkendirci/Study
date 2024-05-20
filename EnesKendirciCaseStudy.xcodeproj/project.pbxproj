@@ -40,6 +40,7 @@
 		697551E32BF9F78B00CC964F /* FilterOptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551E22BF9F78B00CC964F /* FilterOptionTableViewCell.swift */; };
 		697551E62BFA055D00CC964F /* FilterSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551E52BFA055D00CC964F /* FilterSectionHeaderView.swift */; };
 		697551EB2BFAA68100CC964F /* FilterViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551EA2BFAA68100CC964F /* FilterViewModelTest.swift */; };
+		697551ED2BFAB0F600CC964F /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697551EC2BFAB0F600CC964F /* String+Date.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		697551E22BF9F78B00CC964F /* FilterOptionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOptionTableViewCell.swift; sourceTree = "<group>"; };
 		697551E52BFA055D00CC964F /* FilterSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSectionHeaderView.swift; sourceTree = "<group>"; };
 		697551EA2BFAA68100CC964F /* FilterViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewModelTest.swift; sourceTree = "<group>"; };
+		697551EC2BFAB0F600CC964F /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -235,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				697551B92BF8047E00CC964F /* UIColor+HexCode.swift */,
+				697551EC2BFAB0F600CC964F /* String+Date.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				697551A42BF7B8EC00CC964F /* ProductListViewController.swift in Sources */,
 				697551DE2BF9EE7B00CC964F /* FilterViewModel.swift in Sources */,
 				697551AE2BF7BD0B00CC964F /* FavoritesViewController.swift in Sources */,
+				697551ED2BFAB0F600CC964F /* String+Date.swift in Sources */,
 				697551A72BF7BCAA00CC964F /* MainTabBarController.swift in Sources */,
 				697551CA2BF932B700CC964F /* NetworkManager.swift in Sources */,
 				697551722BF7B85100CC964F /* SceneDelegate.swift in Sources */,
